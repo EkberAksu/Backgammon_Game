@@ -60,7 +60,7 @@ public class Backgammon {
     void setCordianeM(String co) {
         cordinateM=co;
     }*/
-    void MakeMove(char stone, int isArtificial) {
+    void MakeMove(char stone, int isArtificial) throws IOException {
         int NowColumn=-1, NowRow=-1;
         int AfterColumn=-1, AfterRow=-1;
         int Now,After;
@@ -89,10 +89,22 @@ public class Backgammon {
                     do{  
                         do{
                         int i=0;
-                            message="";
+                            message="";//new
                             JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-                            message =  JOptionPane.showInputDialog(frame,"User "+stone+" Enter a movement"); 
+                            String zarNow ="Move : [";
+                            for (int k = 0; k < zarList.size(); k++) {
+                                if( k == 0)
+                                    zarNow += zarList.get(k);
+                                else
+                                    zarNow += ", "+zarList.get(k);
+                            }
+                            zarNow += "]\n";
+                            message =  JOptionPane.showInputDialog(frame,zarNow+"User "+stone+" Enter a movement"); 
                             if(message==null) {
+                                int input = JOptionPane.showOptionDialog(null, "Do you want to save the game", "Selection Of Game Beginning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+                                if(input == JOptionPane.OK_OPTION)                               
+                                    getBoard().encyrptionForSavingGame();
                                 System.err.println("Closing the game...");
                                 System.exit(0);   
                             }
@@ -137,6 +149,7 @@ public class Backgammon {
                 MakeMove(stone, isArtificial);
         }
     }
+    
     void makeOpponentMove(String inputCoordinate, char color) {
         int flag = 0;
         int zarIndex=0,i=0,j=0;
