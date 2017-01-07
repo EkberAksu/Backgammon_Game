@@ -1,13 +1,12 @@
 package gamebackgammon;
 
 import static gamebackgammon.Artificial.game1;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Soner
- */
+
 public class Manual extends javax.swing.JFrame {
-    static Backgammon game = new Backgammon("isim", 'X');
+    static Backgammon game = new Backgammon("isim",'X');
     /**
      * Creates new form Manual
      */
@@ -55,7 +54,7 @@ public class Manual extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) throws InterruptedException {
+    public static void main(String args[]) throws InterruptedException, IOException {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -78,8 +77,9 @@ public class Manual extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Manual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
         game.getBoard().LoadTable();
+        game.getBoard().decyrptionForGettingOldGame();//new
+            
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
