@@ -5,12 +5,16 @@
  */
 package gamebackgammon;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
-/**
- *
- * @author suleyman
- */
+
 class board {
     private char myColor;
     static char [][]table = new char[30][12];
@@ -45,9 +49,90 @@ class board {
         findFilledCordinates(getYourColor());
         return filledYour;
     }
+    void encyrptionForSavingGame() throws FileNotFoundException, IOException {//new
+        FileWriter outputFile = new FileWriter("saved.txt");
+        BufferedWriter bw = new BufferedWriter(outputFile);
+        int occurrence = 0;
+        
+        for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 12; j++) {
+                if(table[i][j] == getMyColor()) {
+                    occurrence++;
+                    //bw.write((char)(i + 19 + occurrence) + " " + (char)(j + 21 + occurrence) + " ");
+                    bw.write((i + 0) + " " + (j + 0) + " ");
+                }      
+            }
+        }
+        bw.write("\n");
+        occurrence = 0;
+        for (int i = 0; i < 30; i++) {
+            for (int j = 0; j < 12; j++) {
+                if(table[i][j] == getYourColor()) {
+                    occurrence++;
+                    //bw.write((char)(i + 19 + occurrence) + " " + (char)(j + 21 + occurrence) + " ");
+                    bw.write((i + 0) + " " + (j + 0) + " ");
+                }
+            }
+        }
+        bw.close();
+    }
+    boolean decyrptionForGettingOldGame() throws FileNotFoundException {//new
+        int lineSize = 0;
+        try{
+            FileReader inputFile = new FileReader("saved.txt");
+            try (BufferedReader br = new BufferedReader(inputFile)) {
+                
+                int input = JOptionPane.showOptionDialog(null, "If you want to begin from get off", "Selection Of Game Beginning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+                if(input == JOptionPane.OK_OPTION)
+                {
+                    String str;
+                    int counter = 0;
+                    clearTable();
+                    while ((str = br.readLine()) != null)   {
+                        String [] splittedString = str.split("\\s+");
+                        /*for (String splittedString1 : splittedString) {
+                        lineSize++;
+                        System.out.println(splittedString1);
+                        }*/
+                        int occurrence = 0;
+                        counter++;
+                        System.out.println("---- size :"+splittedString.length+"-----\n");
+                        for (int i = 0; i < splittedString.length - 1; i++) {
+                            if(i%2==0) {
+                                occurrence++;
+                                System.out.println("i :"+ splittedString[i]+" / j :"+ splittedString[i+1]+"\n");
+                                int row = Integer.parseInt(splittedString[i]) ;
+                                int column = Integer.parseInt(splittedString[i+1]);
+                                if(counter == 1)  {
+                                    table[row][column] = getMyColor();
+                                    System.out.println("control");
+                                }
+                                else 
+                                    table[row][column] = getYourColor();
+                            }
+                        }
+                    }                    
+                    copyTable();
+                    return true;
+                } else {
+                    System.out.println("burdaa ");
+                    return false;
+                }
+   
+            }
+        }catch(Exception e){
+            System.out.println("burdaa11 :"+ e.getMessage());
+            return false;
+        }     
+    }
+    void clearTable() {//new
+        for (int i = 0; i < 30; i++) 
+            for (int j = 0; j < 12; j++) 
+                table[i][j] = '.';
+    }
     void LoadTable()
     {
-       
         char RivalColor = ' ';
         if (getMyColor() == 'X')
             RivalColor = 'O';
