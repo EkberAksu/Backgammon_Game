@@ -84,8 +84,8 @@ public class Artificial extends javax.swing.JFrame {
         }
         //</editor-fold>
         
-        game.getBoard().LoadTable();
-        game.getBoard().decyrptionForGettingOldGame();//new
+        game1.getBoard().LoadTable();
+        game1.getBoard().decyrptionForGettingOldGame();//new
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
